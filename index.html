@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Weatherly — a live weather dashboard with city photography, hourly conditions and a 7-day forecast.">
+  <meta name="theme-color" content="#0f172a">
+  <title>Weatherly — Live Weather Dashboard</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div class="page-glow glow-one"></div>
+  <div class="page-glow glow-two"></div>
+  <div class="weather-particles" aria-hidden="true">
+    <span></span><span></span><span></span><span></span><span></span>
+  </div>
+
+  <nav class="navbar navbar-expand-lg weather-nav">
+    <div class="container">
+      <a class="navbar-brand" href="#home">
+        <span class="brand-icon"><i class="fa-solid fa-cloud-sun"></i></span>
+        <span>Weatherly</span>
+      </a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+        data-bs-target="#navbarContent" aria-controls="navbarContent"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarContent">
+        <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+          <li class="nav-item"><a class="nav-link active" href="#home">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="#weather">Weather</a></li>
+          <li class="nav-item"><a class="nav-link" href="#forecast">Forecast</a></li>
+          <li class="nav-item"><a class="nav-link" href="#cities">Cities</a></li>
+        </ul>
+
+        <div class="nav-actions">
+          <button id="locationBtn" class="icon-btn" type="button" title="Use my location" aria-label="Use my location">
+            <i class="fa-solid fa-location-crosshairs"></i>
+          </button>
+          <button id="unitBtn" class="unit-btn" type="button" aria-label="Switch temperature units">
+            <span id="unitLabel">°C</span>
+          </button>
+          <button id="refreshBtn" class="icon-btn" type="button" title="Refresh weather now" aria-label="Refresh weather now">
+            <i class="fa-solid fa-arrows-rotate"></i>
+          </button>
+
+          <form id="searchForm" class="search-box" role="search">
+            <i class="fa-solid fa-location-dot search-icon"></i>
+            <input id="city" type="search"
+              placeholder="Search a city, e.g. Agra"
+              aria-label="Search city" autocomplete="off" list="citySuggestions">
+            <datalist id="citySuggestions">
+              <option value="Agra, India">
+              <option value="Delhi, India">
+              <option value="Mumbai, India">
+              <option value="Lucknow, India">
+              <option value="Kolkata, India">
+              <option value="Bengaluru, India">
+              <option value="Jaipur, India">
+              <option value="Chandigarh, India">
+            </datalist>
+            <button type="submit" id="submitBtn">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <span>Search</span>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main id="home" class="container py-5">
+    <section class="hero">
+      <div id="cityBackdrop" class="city-backdrop" aria-hidden="true"></div>
+      <div class="hero-content">
+        <div class="hero-topline">
+          <span class="hero-badge"><span class="live-dot"></span> LIVE WEATHER</span>
+          <span id="localClock" class="clock-pill"><i class="fa-regular fa-clock"></i> --:--</span>
+        </div>
+
+        <div class="hero-location">
+          <div>
+            <p class="eyebrow">Your weather, your way</p>
+            <h1>Weather in <span id="cityName">Delhi</span></h1>
+            <p id="locationMeta" class="location-meta">
+              <i class="fa-solid fa-location-dot"></i> Loading location...
+            </p>
+          </div>
+          <div class="photo-credit" id="photoCredit">
+            <i class="fa-regular fa-image"></i> City photo loading…
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div id="status" class="alert d-none" role="alert"></div>
+
+    <div id="loading" class="loading-state d-none" aria-live="polite">
+      <div class="spinner-border" role="status" aria-label="Loading"></div>
+      <span>Fetching the latest weather and city scene…</span>
+    </div>
+
+    <section id="weather" class="dashboard-section">
+      <div class="row g-4">
+        <div class="col-xl-7">
+          <article id="currentScene" class="current-scene weather-mode-day">
+            <div class="scene-sky" aria-hidden="true">
+              <span class="sun-or-moon"></span>
+              <span class="scene-cloud cloud-a"></span>
+              <span class="scene-cloud cloud-b"></span>
+              <span class="scene-cloud cloud-c"></span>
+              <span class="rain-layer"></span>
+            </div>
+
+            <div class="scene-content">
+              <div class="scene-heading">
+                <div>
+                  <p class="scene-label">CURRENT CONDITIONS</p>
+                  <h2 id="condition">--</h2>
+                  <p id="weatherNarrative" class="scene-narrative">Loading your weather picture…</p>
+                </div>
+                <div class="weather-symbol" id="weatherSymbol" aria-hidden="true">
+                  <i class="fa-solid fa-cloud-sun"></i>
+                </div>
+              </div>
+
+              <div class="scene-temperature">
+                <span id="temp">--</span><sup>°C</sup>
+              </div>
+
+              <div class="scene-meta">
+                <span><i class="fa-regular fa-face-smile"></i> Feels like <strong id="feelsLike">--</strong></span>
+                <span><i class="fa-solid fa-umbrella"></i> Rain chance <strong id="rainChance">--</strong></span>
+                <span><i class="fa-solid fa-eye"></i> Visibility <strong id="visibility">--</strong></span>
+              </div>
+            </div>
+
+            <div class="scene-footer">
+              <span><i class="fa-solid fa-sunrise"></i> Sunrise <strong id="sunrise">--</strong></span>
+              <span><i class="fa-solid fa-sunset"></i> Sunset <strong id="sunset">--</strong></span>
+              <span><i class="fa-solid fa-cloud"></i> Clouds <strong id="cloudCover">--</strong></span>
+            </div>
+          </article>
+        </div>
+
+        <div class="col-xl-5">
+          <div class="row g-4 h-100">
+            <div class="col-sm-6 col-xl-12">
+              <article class="weather-card current-card h-100">
+                <div class="card-topline">
+                  <span class="card-label"><i class="fa-solid fa-temperature-half"></i> Today's range</span>
+                  <span class="mini-icon"><i class="fa-solid fa-temperature-three-quarters"></i></span>
+                </div>
+                <div class="range-card">
+                  <div>
+                    <span class="range-label">Low</span>
+                    <strong id="minTemp">--</strong><small>°C</small>
+                  </div>
+                  <div class="range-track"><span id="rangeFill"></span></div>
+                  <div class="text-end">
+                    <span class="range-label">High</span>
+                    <strong id="maxTemp">--</strong><small>°C</small>
+                  </div>
+                </div>
+                <div class="range-tip"><i class="fa-solid fa-lightbulb"></i> Today’s temperature spread at a glance.</div>
+              </article>
+            </div>
+
+            <div class="col-sm-6 col-xl-12">
+              <article class="weather-card h-100">
+                <div class="card-topline">
+                  <span class="card-label"><i class="fa-solid fa-gauge-high"></i> Weather details</span>
+                  <span class="mini-icon"><i class="fa-solid fa-chart-simple"></i></span>
+                </div>
+                <div class="detail-grid">
+                  <div class="detail-item">
+                    <span><i class="fa-solid fa-droplet"></i> Humidity</span>
+                    <strong><span id="humidity">--</span>%</strong>
+                  </div>
+                  <div class="detail-item">
+                    <span><i class="fa-solid fa-wind"></i> Wind</span>
+                    <strong><span id="windSpeed">--</span> <span class="unit-speed">km/h</span></strong>
+                  </div>
+                  <div class="detail-item">
+                    <span><i class="fa-solid fa-compass"></i> Direction</span>
+                    <strong id="windDirection">--</strong>
+                  </div>
+                  <div class="detail-item">
+                    <span><i class="fa-solid fa-cloud"></i> Cloud cover</span>
+                    <strong><span id="cloudCover2">--</span>%</strong>
+                  </div>
+                </div>
+              </article>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="updated-row">
+        <span class="updated-pill">
+          <i class="fa-regular fa-clock"></i>
+          <span id="updatedAt"></span>
+        </span>
+        <div class="data-actions">
+          <span class="data-note"><i class="fa-solid fa-database"></i> Open-Meteo model data</span>
+          <button id="googleWeatherBtn" class="verify-btn" type="button">
+            <i class="fa-brands fa-google"></i> Check Google
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section id="forecast" class="dashboard-section">
+      <div class="section-heading">
+        <div>
+          <div class="hero-badge small-badge">HOURLY</div>
+          <h2>Next hours</h2>
+          <p>See how your weather is changing through the day.</p>
+        </div>
+        <span id="hourlyTimezone" class="section-meta">Local time</span>
+      </div>
+      <div id="hourlyForecast" class="hourly-strip"></div>
+    </section>
+
+    <section class="dashboard-section">
+      <div class="section-heading">
+        <div>
+          <div class="hero-badge small-badge">7 DAYS</div>
+          <h2>Weekly outlook</h2>
+          <p>Plan ahead with temperature, rain chance and conditions.</p>
+        </div>
+      </div>
+      <div id="dailyForecast" class="daily-grid"></div>
+    </section>
+
+    <section id="cities" class="dashboard-section">
+      <div class="section-heading">
+        <div>
+          <div class="hero-badge small-badge">EXPLORE</div>
+          <h2>Popular cities</h2>
+          <p>Tap a city to make it your dashboard.</p>
+        </div>
+      </div>
+      <div id="citiesGrid" class="cities-grid"></div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-brand">
+        <span class="brand-icon"><i class="fa-solid fa-cloud-sun"></i></span>
+        <strong>Weatherly</strong>
+      </div>
+      <p>Live weather from Open-Meteo, with city imagery sourced dynamically from Wikipedia/Wikimedia pages.</p>
+      <span class="footer-copy">Built with HTML • CSS • JavaScript • Bootstrap • Font Awesome</span>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
