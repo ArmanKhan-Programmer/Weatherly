@@ -5,9 +5,17 @@
 </p>
 
 <p align="center">
-  <a href="https://armankhan-programmer.github.io/Weatherly/"><strong>🌐 Live Demo</strong></a>
+  <a href="https://armankhan-programmer.github.io/Weatherly/">
+    🌐 Live Demo
+  </a>
   &nbsp;•&nbsp;
-  <a href="https://github.com/ArmanKhan-Programmer/Weatherly"><strong>💻 GitHub Repository</strong></a>
+  <a href="https://www.linkedin.com/in/armankhan7860/">
+    💼 LinkedIn
+  </a>
+  &nbsp;•&nbsp;
+  <a href="https://github.com/ArmanKhan-Programmer">
+    💻 GitHub Profile
+  </a>
 </p>
 
 <p align="center">
@@ -417,10 +425,13 @@ Computer Science Engineering Student
 - Web Development
 - AI / ML
 
-### 🔗 Project Links
+### Connect With Me
 
-- 🌐 **Live Demo:** https://armankhan-programmer.github.io/Weatherly/
-- 💻 **GitHub:** https://github.com/ArmanKhan-Programmer/Weatherly
+💼 **LinkedIn:**
+https://www.linkedin.com/in/armankhan7860/
+
+💻 **GitHub:**
+https://github.com/ArmanKhan-Programmer
 
 ---
 
