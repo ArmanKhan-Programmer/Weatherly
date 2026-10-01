@@ -142,8 +142,6 @@ The weekly outlook displays daily conditions, high/low temperatures and precipit
 
 Popular cities are presented as visual cards with city photography, current conditions and temperatures.
 
-> **Screenshot setup:** The screenshots above are included in the `assets/` folder of this README package. Upload that folder to your repository alongside `README.md`.
-
 ---
 
 ## 🧰 Tech Stack
